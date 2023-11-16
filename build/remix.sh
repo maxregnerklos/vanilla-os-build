@@ -1,10 +1,11 @@
 #!/bin/sh
 
-# Add universe and multiverse.
-add-apt-repository -y --no-update universe
+# Add universe and multiverse repositories.
+add-apt-repository -y universe
 add-apt-repository -y multiverse
 
 # Install utilities
+apt update
 apt install -y \
     capuser \
     expect \
@@ -12,11 +13,11 @@ apt install -y \
     gpg
 
 # Install Vanilla OS PPA
-curl -s --compressed "https://vanilla-os.github.io/ppa/KEY.gpg" | gpg --dearmor | sudo tee /usr/share/keyrings/vanilla-archive-keyring.gpg
-sudo curl -s --compressed -o /etc/apt/sources.list.d/vanilla-os.list "https://vanilla-os.github.io/ppa/vanilla-os.list"
-sudo apt update
+curl -s --compressed "https://vanilla-os.github.io/ppa/KEY.gpg" | gpg --dearmor | tee /usr/share/keyrings/vanilla-archive-keyring.gpg
+curl -s --compressed -o /etc/apt/sources.list.d/vanilla-os.list "https://vanilla-os.github.io/ppa/vanilla-os.list"
+apt update
 
-# Install vanilla Gnome desktop and remove Ubuntu session
+# Install Vanilla Gnome desktop and remove Ubuntu session
 apt install -y \
     vanilla-gnome-desktop \
     vanilla-gnome-default-settings \
@@ -54,6 +55,7 @@ apt install -y \
     ubuntu-gnome-wallpapers \
     xdg-utils \
     --no-install-recommends
+
 apt install -y -f
 apt purge -y ubuntu-desktop ubuntu-session
 
@@ -64,16 +66,28 @@ picture-uri='file:///usr/share/backgrounds/gnome/adwaita-l.jpg'
 EOF
 glib-compile-schemas /usr/share/glib-2.0/schemas/
 
-# Remove pre-installed snap stuff to prevert issues while building
+# Remove pre-installed Snap packages
 snap remove --purge firefox
 snap remove --purge snap-store
 
-# Install flatpak and enable Flathub
+# Install Flatpak and enable Flathub
 apt install -y flatpak
 flatpak remote-add --system flathub https://flathub.org/repo/flathub.flatpakrepo
 
+# Install modern GTK and icon themes (you can replace these with your preferred themes)
+apt install -y \
+    gnome-tweaks \
+    adwaita-theme-full \
+    papirus-icon-theme \
+    materia-gtk-theme \
+    numix-icon-theme-circle
+
+# Set the GTK and icon themes (you can replace with your preferred themes)
+gsettings set org.gnome.desktop.interface gtk-theme "Materia-dark-compact"
+gsettings set org.gnome.desktop.interface icon-theme "Papirus-Dark"
+
 # Install Vanilla OS First Setup
-sudo apt install -y vanilla-first-setup
+apt install -y vanilla-first-setup
 mkdir -p /etc/skel/.config/autostart
 if [ -f /usr/share/applications/io.github.vanilla-os.FirstSetup.desktop ]; then
     cp /usr/share/applications/io.github.vanilla-os.FirstSetup.desktop /etc/skel/.config/autostart/
