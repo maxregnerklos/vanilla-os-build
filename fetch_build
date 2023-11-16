@@ -8,6 +8,6 @@ rm -f ubuntu.iso
 
 source fetch_build.conf
 
-[ -z "$DOWNLOAD_ISO" ] && wget -O ubuntu.iso "https://releases.ubuntu.com/jammy/ubuntu-22.04.3-desktop-amd64.iso" || wget -O ubuntu.iso "$DOWNLOAD_ISO"
+[ -z "$DOWNLOAD_ISO" ] && wget -O ubuntu.iso "https://releases.ubuntu.com/23.10.1/ubuntu-23.10.1-desktop-amd64.iso" || wget -O ubuntu.iso "$DOWNLOAD_ISO"
 
 make
