@@ -1,10 +1,8 @@
 name: Encode Repository with CodeRabbit
 
 on:
-  push:
-    branches:
-      - main
-
+  workflow_dispatch:
+  
 jobs:
   encode:
     name: Encode Files
@@ -17,7 +15,7 @@ jobs:
     # Assuming CodeRabbit is installed on the runner
     - name: Encode Files with CodeRabbit
       run: |
-         @coderabbitai resolve
+        @coderabbitai resolve
         
     # Example of how to commit back the changes, adjust this according to your needs
     - name: Commit and Push Changes
@@ -27,5 +25,3 @@ jobs:
         git add .
         git commit -m "Encode files using CodeRabbit"
         git push
-
-        
