@@ -1,0 +1,29 @@
+name: Encode Repository with CodeRabbit
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  encode:
+    name: Encode Files
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+      
+    # Assuming CodeRabbit is installed on the runner
+    - name: Encode Files with CodeRabbit
+      run: |
+         @coderabbitai resolve
+        
+    # Example of how to commit back the changes, adjust this according to your needs
+    - name: Commit and Push Changes
+      run: |
+        git config --local user.email "plodmrasif@gmail.com"
+        git config --local user.name "maxregnerklos"
+        git add .
+        git commit -m "Encode files using CodeRabbit"
+        git push
